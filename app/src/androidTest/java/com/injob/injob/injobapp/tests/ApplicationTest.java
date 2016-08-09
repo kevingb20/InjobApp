@@ -1,4 +1,4 @@
-package com.injob.injob.injobapp;
+package com.injob.injob.injobapp.tests;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
@@ -9,5 +9,12 @@ import android.test.ApplicationTestCase;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
+    }
+
+    public void este_si_paso(){
+        assertTrue(5>1);
+    }
+    public void este_no_paso(){
+        assertTrue(5<1);
     }
 }
