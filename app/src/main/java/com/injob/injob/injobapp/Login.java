@@ -1,5 +1,6 @@
 package com.injob.injob.injobapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,6 +31,10 @@ public class Login extends AppCompatActivity {
         host.addTab(spec);
 
 
+    }
+    public void login(View view){
+        Intent i = new Intent(this, HomeEmpleados.class);
+        startActivity(i);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

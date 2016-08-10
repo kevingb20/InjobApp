@@ -16,11 +16,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login" />
+        <activity android:name=".MainActivityAdmin" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".HomeEmpleados"
+            android:label="@string/title_activity_home_empleados"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".MainActivityAdmin"></activity>
     </application>
 
 </manifest>
