@@ -48,11 +48,7 @@ public class HomeEmpleados extends AppCompatActivity
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
     }
-    @Override
-    public void onPause(){
-        super.onPause();
-        mScannerView.stopCamera();
-    }
+
 
 
     @Override
@@ -94,11 +90,23 @@ public class HomeEmpleados extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            
+            Intent edit = new Intent(this, EditEmp.class);
+            startActivity(edit);
 
 
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            AlertDialog.Builder builder= new  AlertDialog.Builder(this);
+            builder.setTitle("Multa");
+            builder.setMessage("Su multa es de: $50.00");
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    aceptar();
+                }
+            });
+            AlertDialog alert1= builder.create();
+            alert1.show();
 
         } else if (id == R.id.nav_slideshow) {
 

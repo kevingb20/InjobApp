@@ -23,7 +23,16 @@
             android:name=".HomeEmpleados"
             android:label="@string/title_activity_home_empleados"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditEmp"></activity>
+        <activity
+            android:name=".EditEmp"
+            android:label="@string/title_activity_edit_employee"
+            android:parentActivityName=".HomeEmpleados"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeEmpleados"
+                />
+        </activity>
     </application>
 
 </manifest>
