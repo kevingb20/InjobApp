@@ -126,9 +126,9 @@ public class HomeEmpleados extends AppCompatActivity
     @Override
     public void handleResult(Result result) {
         AlertDialog.Builder builder= new  AlertDialog.Builder(this);
-        builder.setTitle("scan Result");
+        builder.setTitle("Multas: ");
         builder.setMessage(result.getText());
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 aceptar();
