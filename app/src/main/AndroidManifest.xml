@@ -36,7 +36,7 @@
         </activity>
 
         <activity android:name=".ListarEmpleado" />
-        <activity android:name=".EditEmp" />
+
         <activity android:name=".Admin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
