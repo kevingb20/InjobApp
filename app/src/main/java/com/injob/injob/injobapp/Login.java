@@ -35,6 +35,9 @@ public class Login extends AppCompatActivity {
     public void login(View view){
         Intent i = new Intent(this, HomeEmpleados.class);
         startActivity(i);
+    }public void loginAdmin(View view){
+        Intent i = new Intent(this, Admin.class);
+        startActivity(i);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -168,7 +168,8 @@
                         android:layout_height="wrap_content"
                         android:text="Enviar"
                         android:id="@+id/btn_enviar2"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:onClick="loginAdmin" />
 
                 </LinearLayout>
             </FrameLayout>
