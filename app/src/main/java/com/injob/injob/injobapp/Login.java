@@ -23,7 +23,7 @@ import java.net.URL;
 public class Login extends AppCompatActivity {
     //TabHost tabHost;
     Button btnIngresar;
-    EditText txtusu,txtpas;
+    EditText txtusu,txtpas,txtusu2,txtpas2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,8 @@ public class Login extends AppCompatActivity {
 
         txtusu=(EditText)findViewById(R.id.txt_Email);
         txtpas=(EditText)findViewById(R.id.txt_Pass);
+        txtusu2=(EditText)findViewById(R.id.txt_Email2);
+        txtpas2=(EditText)findViewById(R.id.txt_Pass2);
         btnIngresar=(Button)findViewById(R.id.btn_submit);
 
 
@@ -52,7 +54,7 @@ public class Login extends AppCompatActivity {
 
 
     }
-    public String enviarDatosGet(String usu, String pas){
+    public String enviarDatosGet(String usu, String pas,boolean tipo){
 
         URL url =null;
         String line="";
@@ -60,7 +62,10 @@ public class Login extends AppCompatActivity {
         StringBuilder resul = null;
 
         try {
-            url= new URL("http://169.254.217.96/injob/valida.php?usu="+usu+"&pas="+pas);
+            if(tipo)//empleado
+                url= new URL("http://localhost/injob/valida.php?usu="+usu+"&pas="+pas);//Cambiar localhost por IP de servidor
+            else // admin
+                url= new URL("http://localhost/injob/valida2.php?usu="+usu+"&pas="+pas);//Cambiar localhost por ip de servidor
 
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             respuesta= connection.getResponseCode();
@@ -97,7 +102,7 @@ public class Login extends AppCompatActivity {
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtusu.getText().toString(), txtpas.getText().toString());
+                final String resultado = enviarDatosGet(txtusu.getText().toString(), txtpas.getText().toString(),true);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -117,9 +122,29 @@ public class Login extends AppCompatActivity {
         }
 
     public void loginAdmin(View view){
-        Intent i = new Intent(this, Admin.class);
-        startActivity(i);
+
+        Thread tr= new Thread() {
+            @Override
+            public void run() {
+                final String resultado = enviarDatosGet(txtusu2.getText().toString(), txtpas2.getText().toString(),false);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int r = obtDatosJson(resultado);
+                        if (r > 0) {
+                            Intent i = new Intent(getApplicationContext(), Admin.class);
+                            i.putExtra("cod", txtusu2.getText().toString());
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        };
+        tr.start();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

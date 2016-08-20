@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:ems="10"
-                        android:id="@+id/Txt_Pass2"
+                        android:id="@+id/txt_Pass2"
                         android:autoText="true"
                         android:elegantTextHeight="true"
                         android:selectAllOnFocus="false"
