@@ -60,7 +60,6 @@
                         android:selectAllOnFocus="false"
                         android:transitionName=""
                         android:hint="Email"
-                        android:text=""
                         android:password="false"
                         android:gravity="center" />
 
