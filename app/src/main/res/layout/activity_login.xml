@@ -29,16 +29,18 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView2"
                 android:layout_gravity="center_horizontal"
-                android:src="@mipmap/logo" />
+                android:src="@mipmap/logo"
+                android:paddingTop="30dp" />
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp">
                 <LinearLayout
                     android:id="@+id/tab1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="314dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -131,7 +133,8 @@
                         android:hint="Nombre de la empresa"
                         android:text=""
                         android:password="false"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -145,7 +148,8 @@
                         android:transitionName="email"
                         android:hint="Email"
                         android:text=""
-                        android:password="false" />
+                        android:password="false"
+                        android:gravity="center" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -160,7 +164,8 @@
                         android:hint="Contraseña"
                         android:text=""
                         android:password="true"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center" />
 
                     <Button
                         android:layout_width="wrap_content"
