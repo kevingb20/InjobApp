@@ -49,12 +49,12 @@ public class Login extends AppCompatActivity {
         //Tab 2
         spec = host.newTabSpec("Tab Two");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Gerente");
+        spec.setIndicator("Administrador");
         host.addTab(spec);
 
 
     }
-    public String enviarDatosGet(String usu, String pas,boolean tipo){
+    public String enviarDatosGet(String usu, String pas,int tipo){
 
         URL url =null;
         String line="";
@@ -62,10 +62,8 @@ public class Login extends AppCompatActivity {
         StringBuilder resul = null;
 
         try {
-            if(tipo)//empleado
-                url= new URL("http://localhost/injob/valida.php?usu="+usu+"&pas="+pas);//Cambiar localhost por IP de servidor
-            else // admin
-                url= new URL("http://localhost/injob/valida2.php?usu="+usu+"&pas="+pas);//Cambiar localhost por ip de servidor
+                url= new URL("http://drwaltergarcia.com/InjobApp/valida.php?usu="+usu+"&pas="+pas+"&tipo="+tipo);//Tipo para saber si es empleado o Admin
+
 
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             respuesta= connection.getResponseCode();
@@ -102,7 +100,7 @@ public class Login extends AppCompatActivity {
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtusu.getText().toString(), txtpas.getText().toString(),true);
+                final String resultado = enviarDatosGet(txtusu.getText().toString(), txtpas.getText().toString(),1);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -112,7 +110,7 @@ public class Login extends AppCompatActivity {
                             i.putExtra("cod", txtusu.getText().toString());
                             startActivity(i);
                         } else {
-                            Toast.makeText(getApplicationContext(), "usuario o pass mal", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -126,7 +124,7 @@ public class Login extends AppCompatActivity {
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtusu2.getText().toString(), txtpas2.getText().toString(),false);
+                final String resultado = enviarDatosGet(txtusu2.getText().toString(), txtpas2.getText().toString(),2);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

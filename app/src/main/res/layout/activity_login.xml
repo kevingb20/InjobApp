@@ -56,6 +56,21 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:ems="10"
+                        android:id="@+id/txt_empresa"
+                        android:autoText="true"
+                        android:elegantTextHeight="true"
+                        android:selectAllOnFocus="false"
+                        android:transitionName="email"
+                        android:hint="Empresa"
+                        android:password="false"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
                         android:id="@+id/txt_Email"
                         android:autoText="true"
                         android:elegantTextHeight="true"
@@ -78,22 +93,6 @@
                         android:hint="Contraseña"
                         android:text=""
                         android:password="true"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:ems="10"
-                        android:id="@+id/txt_code"
-                        android:autoText="true"
-                        android:elegantTextHeight="true"
-                        android:selectAllOnFocus="false"
-                        android:transitionName="email"
-                        android:hint="Code"
-                        android:text=""
-                        android:password="false"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center" />
 
@@ -130,7 +129,7 @@
                         android:elegantTextHeight="true"
                         android:selectAllOnFocus="false"
                         android:transitionName="email"
-                        android:hint="Nombre de la empresa"
+                        android:hint="Empresa"
                         android:text=""
                         android:password="false"
                         android:layout_gravity="center_horizontal"
@@ -166,6 +165,23 @@
                         android:password="true"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
+                        android:id="@+id/txt_Codigo"
+                        android:autoText="true"
+                        android:elegantTextHeight="true"
+                        android:selectAllOnFocus="false"
+                        android:transitionName="email"
+                        android:hint="Código"
+                        android:text=""
+                        android:password="false"
+                        android:gravity="center" />
+>>>>>>> Stashed changes
 
                     <Button
                         android:layout_width="wrap_content"
