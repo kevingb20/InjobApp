@@ -9,32 +9,98 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.injob.injob.injobapp.ListarEmpleado">
 
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:id="@+id/crear"
+        android:layout_marginTop="114dp"
+        android:background="@android:color/holo_blue_dark"
+        android:src="@mipmap/create"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:onClick="agregar" />
+
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:id="@+id/listar"
+        android:background="@android:color/holo_blue_dark"
+        android:src="@mipmap/listar"
+        android:layout_alignTop="@+id/crear"
+        android:layout_toRightOf="@+id/crear"
+        android:layout_toEndOf="@+id/crear"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:onClick="listar" />
+
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:id="@+id/modify"
+        android:layout_below="@+id/crear"
+        android:layout_alignLeft="@+id/crear"
+        android:layout_alignStart="@+id/crear"
+        android:layout_marginTop="60dp"
+        android:background="@android:color/holo_blue_dark"
+        android:src="@mipmap/modify"
+        android:onClick="modificar" />
+
+    <ImageButton
+        android:layout_width="120dp"
+        android:layout_height="130dp"
+        android:id="@+id/delete"
+        android:layout_alignTop="@+id/modify"
+        android:layout_alignLeft="@+id/listar"
+        android:layout_alignStart="@+id/listar"
+        android:background="@android:color/holo_blue_dark"
+        android:src="@mipmap/delete"
+        android:onClick="eliminar" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Codigo:"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Agregar"
         android:id="@+id/textView14"
-        android:textSize="15dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/editText4"
-        android:layout_marginEnd="22dp"
-        android:layout_marginTop="27dp" />
+        android:layout_marginStart="34dp"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/textView19"
+        android:layout_alignStart="@+id/crear" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editText4"
-        android:width="50dp"
-        android:layout_alignBottom="@+id/textView14"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Listar"
+        android:id="@+id/textView19"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="19dp"
+        android:layout_marginStart="42dp"
+        android:layout_alignBottom="@+id/listar"
+        android:layout_alignStart="@+id/listar" />
 
-    <ListView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Modificar"
+        android:id="@+id/textView20"
+        android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/textView21"
+        android:layout_alignBottom="@+id/textView21"
+        android:layout_alignStart="@+id/textView14" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Eliminar"
+        android:id="@+id/textView21"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="20dp"
+        android:layout_alignBottom="@+id/delete"
+        android:layout_alignStart="@+id/textView19" />
 </RelativeLayout>

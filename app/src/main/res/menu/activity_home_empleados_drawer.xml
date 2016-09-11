@@ -4,15 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/ic_home_black_24dp"
             android:title="Editar" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/ic_error_black_24dp"
             android:title="Multa" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@mipmap/ic_settings_black_24dp"
             android:title="Configuración" />
 
     </group>
@@ -21,7 +21,7 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@mipmap/ic_exit_to_app_black_24dp"
                 android:title="Salir" />
 
         </menu>

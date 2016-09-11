@@ -66,20 +66,7 @@ public class Admin extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -97,12 +84,6 @@ public class Admin extends AppCompatActivity
 
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new Frag_Multas() )
-                    .commit();
-
-        } else if (id == R.id.nav_slideshow) {
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new Frag_Horarios() )
                     .commit();
 
         } else if (id == R.id.nav_manage) {

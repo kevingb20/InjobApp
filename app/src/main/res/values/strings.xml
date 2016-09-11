@@ -7,8 +7,13 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_report">Report</string>
-    <string name="title_activity_home_empleados">Home</string>
-    <string name="title_activity_edit_employee">Edit</string>
+    <string name="title_activity_home_empleados">Inicio</string>
+    <string name="title_activity_edit_employee">Editar</string>
+    <string name="title_activity_agregar">Agregar</string>
+    <string name="title_activity_modificar">Modificar</string>
+    <string name="title_activity_eliminar">Eliminar</string>
+    <string name="title_activity_listar">Listar</string>
+    <string name="title_activity_empleado">Empleados</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

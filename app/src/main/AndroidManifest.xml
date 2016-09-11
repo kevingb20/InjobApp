@@ -3,7 +3,7 @@
     package="com.injob.injob.injobapp">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -28,19 +28,55 @@
         <activity
             android:name=".EditEmp"
             android:label="@string/title_activity_edit_employee"
-            android:parentActivityName=".HomeEmpleados"
-            >
+            android:parentActivityName=".HomeEmpleados">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeEmpleados"
-                />
+                android:value=".HomeEmpleados" />
         </activity>
 
-        <activity android:name=".ListarEmpleado" />
-
-        <activity android:name=".Admin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+        <activity android:name=".ListarEmpleado"
+            android:label="@string/title_activity_empleado">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeEmpleados" />
+        </activity>
+        <activity
+            android:name=".Admin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Agregar"
+            android:label="@string/title_activity_agregar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListarEmpleado" />
+        </activity>
+        <activity
+            android:name=".ModificarAdmin"
+            android:label="@string/title_activity_modificar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListarEmpleado" />
+        </activity>
+        <activity
+            android:name=".ModificadoFinalAdmin"
+            android:label="@string/title_activity_modificar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ModificarAdmin" />
+        </activity>
+        <activity
+            android:name=".Eliminar"
+            android:label="@string/title_activity_eliminar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListarEmpleado" />
+        </activity>
+        <activity android:name=".Listar"
+            android:label="@string/title_activity_listar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListarEmpleado" />
+        </activity>
     </application>
 
 </manifest>
