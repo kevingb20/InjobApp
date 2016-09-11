@@ -23,30 +23,33 @@ import java.net.URL;
 public class Login extends AppCompatActivity {
     //TabHost tabHost;
     Button btnIngresar;
-    EditText txtusu,txtpas,txtusu2,txtpas2;
+    EditText txtEmp,txtUsu,txtPas,
+            txtEmp2,txtUsu2,txtPas2,txtCod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        txtusu=(EditText)findViewById(R.id.txt_Email);
-        txtpas=(EditText)findViewById(R.id.txt_Pass);
-        txtusu2=(EditText)findViewById(R.id.txt_Email2);
-        txtpas2=(EditText)findViewById(R.id.txt_Pass2);
-        btnIngresar=(Button)findViewById(R.id.btn_submit);
-
+        //Empleado
+        txtEmp=(EditText)findViewById(R.id.txt_Empresa);
+        txtUsu=(EditText)findViewById(R.id.txt_Email);
+        txtPas=(EditText)findViewById(R.id.txt_Pass);
+        //Administrador
+        txtEmp2=(EditText)findViewById(R.id.txt_Empresa2);
+        txtUsu2=(EditText)findViewById(R.id.txt_Email2);
+        txtPas2=(EditText)findViewById(R.id.txt_Pass2);
+        txtCod=(EditText)findViewById(R.id.txt_Codigo);
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
-        //Tab 1
+        //Tab 1 Empleado
         TabHost.TabSpec spec = host.newTabSpec("Tab One");
         spec.setContent(R.id.tab1);
         spec.setIndicator("Empleado");
         host.addTab(spec);
 
-        //Tab 2
+        //Tab 2 Administrador
         spec = host.newTabSpec("Tab Two");
         spec.setContent(R.id.tab2);
         spec.setIndicator("Administrador");
@@ -54,7 +57,7 @@ public class Login extends AppCompatActivity {
 
 
     }
-    public String enviarDatosGet(String usu, String pas,int tipo){
+    public String enviarDatosGet(String emp,String usu, String pas,String cod, int tipo){
 
         URL url =null;
         String line="";
@@ -62,7 +65,13 @@ public class Login extends AppCompatActivity {
         StringBuilder resul = null;
 
         try {
-                url= new URL("http://drwaltergarcia.com/InjobApp/valida.php?usu="+usu+"&pas="+pas+"&tipo="+tipo);//Tipo para saber si es empleado o Admin
+                url= new URL("http://drwaltergarcia.com/InjobApp/login.php?" +
+                        "&emp="  +emp+
+                        "&usu="  +usu+
+                        "&pas=" +pas+
+                        "&cod="  +cod+
+                        "&tipo="+tipo //Tipo para saber si es Empleado o Admin
+                );
 
 
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -81,6 +90,7 @@ public class Login extends AppCompatActivity {
         }catch (Exception e){
 
         }
+        System.out.println(resul.toString()); ////////////////////////////////////////////////////////////////////////
         return resul.toString();
 
     }
@@ -89,6 +99,7 @@ public class Login extends AppCompatActivity {
         try {
             JSONArray json= new JSONArray(response);
             if(json.length()>0){
+
                 res=1;
             }
         }catch (Exception e){
@@ -100,14 +111,14 @@ public class Login extends AppCompatActivity {
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtusu.getText().toString(), txtpas.getText().toString(),1);
+                final String resultado = enviarDatosGet(txtEmp.getText().toString(),txtUsu.getText().toString(), txtPas.getText().toString(),"",1);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         int r = obtDatosJson(resultado);
                         if (r > 0) {
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
-                            i.putExtra("cod", txtusu.getText().toString());
+                            i.putExtra("cod", txtUsu.getText().toString());
                             startActivity(i);
                         } else {
                             Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
@@ -124,14 +135,14 @@ public class Login extends AppCompatActivity {
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtusu2.getText().toString(), txtpas2.getText().toString(),2);
+                final String resultado = enviarDatosGet(txtEmp2.getText().toString(), txtUsu2.getText().toString(), txtPas2.getText().toString(),txtCod.getText().toString(),2);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         int r = obtDatosJson(resultado);
                         if (r > 0) {
                             Intent i = new Intent(getApplicationContext(), Admin.class);
-                            i.putExtra("cod", txtusu2.getText().toString());
+                            i.putExtra("cod", txtUsu2.getText().toString());
                             startActivity(i);
                         } else {
                             Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
