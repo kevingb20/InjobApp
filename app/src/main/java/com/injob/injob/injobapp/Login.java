@@ -86,6 +86,9 @@ public class Login extends AppCompatActivity {
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
+                            i.putExtra("Empresa",txtEmp.getText().toString());
+                            i.putExtra("Email",txtUsu.getText().toString());
+                            i.putExtra("Password",txtPas.getText().toString());
                             startActivity(i);
 
                         } else {
@@ -115,6 +118,10 @@ public class Login extends AppCompatActivity {
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), Admin.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
+                            i.putExtra("Empresa",txtEmp2.getText().toString());
+                            i.putExtra("Email",txtUsu2.getText().toString());
+                            i.putExtra("Password",txtPas2.getText().toString());
+                            i.putExtra("Codigo",txtCod.getText().toString());
                             startActivity(i);
                         } else {
                             Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_SHORT).show();

@@ -16,11 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class Admin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+      String Nombre,Empresa,Email,Codigo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,16 @@ public class Admin extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         // Saludando
         Intent intent = getIntent();
-        Toast.makeText(getApplicationContext(),("Bienvenido "+intent.getStringExtra("Nombre")),Toast.LENGTH_SHORT).show();
+        Nombre =intent.getStringExtra("Nombre");
+        Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
         // Fin de Saludo
+
+        Empresa =intent.getStringExtra("Empresa");
+        Email =intent.getStringExtra("Email");
+        Codigo =intent.getStringExtra("Codigo");
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -57,6 +65,10 @@ public class Admin extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
     @Override
@@ -73,6 +85,21 @@ public class Admin extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.admin, menu);
+
+        final TextView miNombre1 = (TextView) findViewById(R.id.textViewAdmin1);
+        miNombre1.setText(Nombre);
+
+        final TextView miNombre2 = (TextView) findViewById(R.id.textViewAdmin2);
+        miNombre2.setText(Email);
+
+        final TextView miCodigo = (TextView) findViewById(R.id.txt_CodigoInicio);
+        miCodigo.setText(Codigo);
+
+        final TextView miEmpresa = (TextView) findViewById(R.id.txt_EmpresaInicio);
+        miEmpresa.setText(Empresa);
+
+
+
         return true;
     }
 
