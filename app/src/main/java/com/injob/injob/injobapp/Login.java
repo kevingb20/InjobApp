@@ -1,6 +1,8 @@
 package com.injob.injob.injobapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -26,10 +29,20 @@ public class Login extends AppCompatActivity {
     EditText txtEmp,txtUsu,txtPas,
             txtEmp2,txtUsu2,txtPas2,txtCod;
 
+
+    public static final String MyPREFERENCES = "MisPreferencias" ;
+    SharedPreferences sharedPreferences;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+
         //Empleado
         txtEmp=(EditText)findViewById(R.id.txt_Empresa);
         txtUsu=(EditText)findViewById(R.id.txt_Email);
@@ -54,74 +67,29 @@ public class Login extends AppCompatActivity {
         spec.setContent(R.id.tab2);
         spec.setIndicator("Administrador");
         host.addTab(spec);
-
-
     }
-    public String enviarDatosGet(String emp,String usu, String pas,String cod, int tipo){
 
-        URL url =null;
-        String line="";
-        int respuesta=0;
-        StringBuilder resul = null;
-
-        try {
-                url= new URL("http://drwaltergarcia.com/InjobApp/login.php?" +
-                        "&emp="  +emp+
-                        "&usu="  +usu+
-                        "&pas=" +pas+
-                        "&cod="  +cod+
-                        "&tipo="+tipo //Tipo para saber si es Empleado o Admin
-                );
-
-
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            respuesta= connection.getResponseCode();
-            resul= new StringBuilder();
-
-            if(respuesta== HttpURLConnection.HTTP_OK){
-                InputStream in = new BufferedInputStream(connection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                while ((line= reader.readLine())!=null){
-                    resul.append(line);
-                }
-
-            }
-        }catch (Exception e){
-
-        }
-        System.out.println(resul.toString()); ////////////////////////////////////////////////////////////////////////
-        return resul.toString();
-
-    }
-    public int obtDatosJson(String response){
-        int res=0;
-        try {
-            JSONArray json= new JSONArray(response);
-            if(json.length()>0){
-
-                res=1;
-            }
-        }catch (Exception e){
-        }
-        return res;
-    }
 
     public void login(View view){
+
+       LlenarSharedPreferences(1);//Es de tipo Empleado
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtEmp.getText().toString(),txtUsu.getText().toString(), txtPas.getText().toString(),"",1);
+                final LoginConexion lCon = new LoginConexion();
+                final String resultado = lCon.enviarDatosGet(txtEmp.getText().toString(),txtUsu.getText().toString(), txtPas.getText().toString(),"",1);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        int r = obtDatosJson(resultado);
+                        int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
+                            //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
-                            i.putExtra("cod", txtUsu.getText().toString());
+                            i.putExtra("Nombre",lCon.NombreUsuario );
                             startActivity(i);
+
                         } else {
-                            Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -132,20 +100,24 @@ public class Login extends AppCompatActivity {
 
     public void loginAdmin(View view){
 
+        LlenarSharedPreferences(2); //Es de tipo Admin
+
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final String resultado = enviarDatosGet(txtEmp2.getText().toString(), txtUsu2.getText().toString(), txtPas2.getText().toString(),txtCod.getText().toString(),2);
+                final LoginConexion lCon = new LoginConexion();
+                final String resultado = lCon.enviarDatosGet(txtEmp2.getText().toString(), txtUsu2.getText().toString(), txtPas2.getText().toString(),txtCod.getText().toString(),2);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        int r = obtDatosJson(resultado);
+                        int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
+                            //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), Admin.class);
-                            i.putExtra("cod", txtUsu2.getText().toString());
+                            i.putExtra("Nombre",lCon.NombreUsuario );
                             startActivity(i);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Datos incorrectos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -154,6 +126,27 @@ public class Login extends AppCompatActivity {
         tr.start();
     }
 
+    void LlenarSharedPreferences(int tipo){
+        //Guardar datos en SharedPreferences
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Logeado",true);
+        editor.putInt("Tipo",tipo);
+        if(tipo==1){
+            editor.putString("Empresa",txtEmp.getText().toString());
+            editor.putString("Email",txtUsu.getText().toString());
+            editor.putString("Password",txtPas.getText().toString());
+            editor.putString("Codigo","");
+        }
+        if(tipo==2){
+            editor.putString("Empresa",txtEmp2.getText().toString());
+            editor.putString("Email",txtUsu2.getText().toString());
+            editor.putString("Password",txtPas2.getText().toString());
+            editor.putString("Codigo",txtCod.getText().toString());
+        }
+        editor.commit();
+
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

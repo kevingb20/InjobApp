@@ -1,7 +1,9 @@
 package com.injob.injob.injobapp;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class Admin extends AppCompatActivity
@@ -25,6 +28,13 @@ public class Admin extends AppCompatActivity
         setContentView(R.layout.activity_admin);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Saludando
+        Intent intent = getIntent();
+        Toast.makeText(getApplicationContext(),("Bienvenido "+intent.getStringExtra("Nombre")),Toast.LENGTH_SHORT).show();
+        // Fin de Saludo
+
+
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, new Frag_Inicio() )
@@ -93,13 +103,30 @@ public class Admin extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new Frag_Creditos() )
                     .commit();
-        } else if (id == R.id.nav_send) {
-            Intent i = new Intent(Admin.this,Splash.class);
-            startActivity(i);
+        } else if (id == R.id.nav_send) { //Salir
+            Logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    private void Logout(){
+        SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.remove("Empresa");
+        editor.remove("Email");
+        editor.remove("Password");
+        editor.remove("Codigo");
+        editor.remove("Tipo");
+        editor.remove("Logeado");
+        editor.clear();
+        editor.commit();
+
+        Intent i = new Intent(this, Splash.class);
+        startActivity(i);
+    }
+
 }

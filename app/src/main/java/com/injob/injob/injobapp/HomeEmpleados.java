@@ -1,7 +1,9 @@
 package com.injob.injob.injobapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.zxing.Result;
 
@@ -30,7 +33,10 @@ public class HomeEmpleados extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // Saludando
+        Intent intent = getIntent();
+        Toast.makeText(getApplicationContext(),("Bienvenido "+intent.getStringExtra("Nombre")),Toast.LENGTH_SHORT).show();
+        // Fin de Saludo
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -99,9 +105,10 @@ public class HomeEmpleados extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_share) { //Salir
+            Logout();
         } else if (id == R.id.nav_send) {
+
 
         }
 
@@ -129,4 +136,21 @@ public class HomeEmpleados extends AppCompatActivity
         Intent i = new Intent(this, HomeEmpleados.class);
         startActivity(i);
     }
+    private void Logout(){
+        SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.remove("Empresa");
+        editor.remove("Email");
+        editor.remove("Password");
+        editor.remove("Codigo");
+        editor.remove("Tipo");
+        editor.remove("Logeado");
+        editor.clear();
+        editor.commit();
+
+        Intent i = new Intent(this, Splash.class);
+        startActivity(i);
+    }
+
 }
+
