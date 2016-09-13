@@ -56,20 +56,11 @@ public class Splash extends AppCompatActivity {
                                 if(Tipo==1) { //Empleado
                                     //Entrar a aplicacion
                                     Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
-                                    i.putExtra("Nombre",lCon.NombreUsuario );
-                                    i.putExtra("Empresa",Empresa);
-                                    i.putExtra("Email",Email);
-                                    i.putExtra("Password",Password);
                                     startActivity(i);
                                 }
                                 if(Tipo==2) { //Admin
                                     //Entrar a aplicacion
                                     Intent i = new Intent(getApplicationContext(), Admin.class);
-                                    i.putExtra("Nombre",lCon.NombreUsuario );
-                                    i.putExtra("Empresa",Empresa);
-                                    i.putExtra("Email",Email);
-                                    i.putExtra("Password",Password);
-                                    i.putExtra("Codigo",Codigo);
                                     startActivity(i);
                                 }
                             } else { //Si los datos de inicio de sesion son incorrectos..

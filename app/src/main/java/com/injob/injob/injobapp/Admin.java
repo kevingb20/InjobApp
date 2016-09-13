@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -22,25 +23,28 @@ import android.widget.Toast;
 
 public class Admin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-      String Nombre,Empresa,Email,Codigo;
-
+        String Nombre,Empresa,Email,Codigo;
+        int Id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        //Leyendo SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        Id = sharedPreferences.getInt("Id",0);
+        Nombre =sharedPreferences.getString ("Nombre","");
+        Empresa =   sharedPreferences.getString("Empresa","");
+        Email   =   sharedPreferences.getString("Email","");
+        Codigo =    sharedPreferences.getString("Codigo","");
 
 
         // Saludando
-        Intent intent = getIntent();
-        Nombre =intent.getStringExtra("Nombre");
         Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
-        // Fin de Saludo
+        // Fin Saludo
 
-        Empresa =intent.getStringExtra("Empresa");
-        Email =intent.getStringExtra("Email");
-        Codigo =intent.getStringExtra("Codigo");
+        setContentView(R.layout.activity_admin);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -68,6 +72,28 @@ public class Admin extends AppCompatActivity
 
 
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final TextView miCodigo = (TextView) findViewById(R.id.txt_CodigoInicio);
+        miCodigo.setText(Codigo);
+
+        final TextView miEmpresa = (TextView) findViewById(R.id.txt_EmpresaInicio);
+        miEmpresa.setText(Empresa);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        final TextView miCodigo = (TextView) findViewById(R.id.txt_CodigoInicio);
+        miCodigo.setText(Codigo);
+
+        final TextView miEmpresa = (TextView) findViewById(R.id.txt_EmpresaInicio);
+        miEmpresa.setText(Empresa);
 
     }
 
@@ -113,9 +139,14 @@ public class Admin extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_camera) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, new Frag_Inicio() )
-                    .commit();
+            Intent i = new Intent(getApplicationContext(),Admin.class);
+            startActivity(i);
+            //fragmentManager.beginTransaction()
+              //      .replace(R.id.content_frame, new Frag_Inicio() )
+               //     .commit();
+
+
+
 
         } else if (id == R.id.nav_gallery) {
 
@@ -143,6 +174,7 @@ public class Admin extends AppCompatActivity
     private void Logout(){
         SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.remove("Id");
         editor.remove("Empresa");
         editor.remove("Email");
         editor.remove("Password");
