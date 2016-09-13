@@ -96,7 +96,7 @@
         android:ems="100"
         android:id="@+id/modnombre"
         android:layout_above="@+id/textView23"
-        android:layout_alignEnd="@+id/editemail"
+        android:layout_alignEnd="@+id/addemail"
         android:layout_alignStart="@+id/imageButton" />
 
     <EditText
@@ -105,7 +105,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/modapellido"
-        android:layout_above="@+id/editemail"
+        android:layout_above="@+id/addemail"
         android:layout_alignParentEnd="true" />
 
     <EditText
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editemail"
+        android:id="@+id/addemail"
         android:layout_above="@+id/textView26"
         android:layout_alignParentEnd="true" />
 
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/editcedula"
+        android:id="@+id/addcedula"
         android:layout_alignBottom="@+id/textView26"
         android:layout_alignParentEnd="true" />
 
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editsueldo"
+        android:id="@+id/addsueldo"
         android:layout_above="@+id/textView28"
         android:layout_alignParentEnd="true" />
 
@@ -151,7 +151,7 @@
         android:ems="10"
         android:id="@+id/modsalida"
         android:layout_alignBottom="@+id/textView29"
-        android:layout_alignStart="@+id/editcedula" />
+        android:layout_alignStart="@+id/addcedula" />
 
     <ImageButton
         android:layout_width="90dp"
@@ -160,7 +160,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/save"
-        android:background="#00ffffff" />
+        android:background="#00ffffff"
+        android:onClick="actualizarEmpleadoDesdeAdmin" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -169,5 +170,5 @@
         android:ems="10"
         android:id="@+id/modpass"
         android:layout_above="@+id/textView27"
-        android:layout_alignStart="@+id/editsueldo" />
+        android:layout_alignStart="@+id/addsueldo" />
 </RelativeLayout>

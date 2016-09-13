@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText5"
+        android:id="@+id/modificarTxt"
         android:layout_alignBottom="@+id/textView30"
         android:layout_toEndOf="@+id/textView30"
         android:layout_marginStart="25dp"
@@ -100,7 +100,7 @@
         android:layout_height="50dp"
         android:id="@+id/button3"
         android:background="@mipmap/next"
-        android:layout_alignTop="@+id/editText5"
+        android:layout_alignTop="@+id/modificarTxt"
         android:layout_alignEnd="@+id/textView31"
         android:layout_marginEnd="26dp"
         android:onClick="modificadofinaladmin" />

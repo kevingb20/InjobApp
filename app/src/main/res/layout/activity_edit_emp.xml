@@ -66,8 +66,8 @@
         android:ems="100"
         android:id="@+id/editnombre"
         android:layout_above="@+id/textView23"
-        android:layout_alignEnd="@+id/editemail"
-        android:layout_alignStart="@+id/imageButton" />
+        android:layout_alignEnd="@+id/addemail"
+        android:layout_alignStart="@+id/editapellido" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -112,6 +112,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/edit"
-        android:background="#00ffffff" />
+        android:background="#00ffffff"
+        android:onClick="actualizarEmpleado" />
 
 </RelativeLayout>

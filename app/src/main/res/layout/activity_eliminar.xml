@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText4"
+        android:id="@+id/deletetxt"
         android:layout_alignBottom="@+id/textView33"
         android:layout_toEndOf="@+id/textView33"
         android:layout_marginStart="24dp" />
@@ -99,7 +99,8 @@
         android:layout_height="50dp"
         android:id="@+id/button4"
         android:background="@mipmap/btndelete"
-        android:layout_alignTop="@+id/editText4"
+        android:layout_alignTop="@+id/deletetxt"
         android:layout_alignEnd="@+id/textView32"
-        android:layout_marginEnd="22dp" />
+        android:layout_marginEnd="22dp"
+        android:onClick="eliminarEmpleado" />
 </RelativeLayout>

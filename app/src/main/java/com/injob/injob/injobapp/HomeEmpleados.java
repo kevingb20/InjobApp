@@ -1,9 +1,12 @@
 package com.injob.injob.injobapp;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +21,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -92,12 +109,29 @@ public class HomeEmpleados extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+//            Intent edit = new Intent(this, EditEmp.class);
+//            edit.putExtra("id", Id);
+//            startActivity(edit);
+            Thread tr= new Thread() {
 
-            Intent edit = new Intent(this, EditEmp.class);
-            startActivity(edit);
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ModifyTask modifyTask = new ModifyTask(HomeEmpleados.this);
+                            modifyTask.execute();
+                        }
+                    });
 
 
-            // Handle the camera action
+                }
+            };
+            tr.start();
+
+
+
+
         } else if (id == R.id.nav_gallery) {
             AlertDialog.Builder builder= new  AlertDialog.Builder(this);
             builder.setTitle("Multa");
@@ -163,5 +197,85 @@ public class HomeEmpleados extends AppCompatActivity
         startActivity(i);
     }
 
+    ////////// Usando el id mandamos a buscar los datos del empleado y los pasamos por intent para mostrarlos en la siguiente pantalla
+
+    public class ModifyTask extends AsyncTask<String,String,String > {
+
+        Context ctxxy;
+        ProgressDialog progressDialog;
+        Activity activityyz;
+        android.app.AlertDialog.Builder builder;
+
+        public ModifyTask(Context ctx) {
+            this.ctxxy = ctx;
+            activityyz = (Activity) ctx;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            builder = new android.app.AlertDialog.Builder(activityyz);
+            progressDialog = new ProgressDialog(ctxxy);
+            progressDialog.setTitle("Please wait...");
+            progressDialog.setMessage("employee...");
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL("http://drwaltergarcia.com/InjobApp/ConsultaActualizar.php?" +
+                        "&id="  +Id);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.connect();
+                InputStream stream= httpURLConnection.getInputStream();
+                BufferedReader bufferedReader= new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line=" ";
+                while ((line =bufferedReader.readLine()) != null){
+                    buffer.append(line);
+                }
+                String finalJson = buffer.toString();
+                JSONArray contacts = new JSONArray((finalJson));
+                for (int i = 0; i < contacts.length(); i++) {
+
+                    JSONObject finalObject = contacts.getJSONObject(i);
+                    String nombre = finalObject.getString("nombre");
+                    String apellido = finalObject.getString("apellido");
+                    String email = finalObject.getString("email");
+                    String password = finalObject.getString("password");
+                    String cedula = finalObject.getString("cedula");
+                    Intent intent = new Intent(HomeEmpleados.this, EditEmp.class);
+                    intent.putExtra("id",Id);
+                    intent.putExtra("nombre",nombre);
+                    intent.putExtra("apellido",apellido);
+                    intent.putExtra("email",email);
+                    intent.putExtra("password",password);
+                    intent.putExtra("cedula",cedula);
+                    startActivity(intent);
+               }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            builder = new android.app.AlertDialog.Builder(activityyz);
+            progressDialog.dismiss();
+        }
+
+
+    }
 }
 

@@ -13,11 +13,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Just on 12/09/2016.
+ * Created by Just on 13/09/2016.
  */
-public class ActualizarEmpleadoConexion {
+public class EliminarConexion {
 
-    public String enviarDatosGet(String id,String nombre, String apellido,String email, String password, String cedula){
+    public String enviarDatosGet(String id){
 
         URL url =null;
         String line="";
@@ -25,13 +25,9 @@ public class ActualizarEmpleadoConexion {
         StringBuilder resul = null;
 
         try {
-            url= new URL("http://drwaltergarcia.com/InjobApp/actualizar.php?" +
-                    "&id="  +id+
-                    "&nombre="  +nombre+
-                    "&apellido=" +apellido+
-                    "&email="  +email+
-                    "&password="+password+
-                    "&cedula="+cedula
+            url= new URL("http://drwaltergarcia.com/InjobApp/delete.php?" +
+                    "&id="  +id
+
             );
 
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -54,6 +50,7 @@ public class ActualizarEmpleadoConexion {
         return resul.toString();
 
     }
+
     public int obtDatosJson(String response, Context context){
         int code = 0;
 
@@ -63,7 +60,7 @@ public class ActualizarEmpleadoConexion {
 
             if(code==1)
             {
-                Toast.makeText(context, "Update Successfully",
+                Toast.makeText(context, "Delete Successfully",
                         Toast.LENGTH_SHORT).show();
             }
             else
@@ -75,5 +72,4 @@ public class ActualizarEmpleadoConexion {
         }
         return code;
     }
-
 }
