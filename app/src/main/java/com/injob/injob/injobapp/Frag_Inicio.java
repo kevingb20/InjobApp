@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by user on 12/31/15.
@@ -16,7 +17,11 @@ public class Frag_Inicio extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         myView = inflater.inflate(R.layout.inicio_admin, container, false);
         return myView;
     }
+
+
 }

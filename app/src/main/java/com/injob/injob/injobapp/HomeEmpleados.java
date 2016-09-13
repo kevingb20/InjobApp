@@ -24,19 +24,28 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class HomeEmpleados extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
-
-    private ZXingScannerView mScannerView;
+        private ZXingScannerView mScannerView;
+        public int Id;
+        String Nombre,Empresa,Email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Leyendo SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        Id = sharedPreferences.getInt("Id",0);
+        Nombre =sharedPreferences.getString("Nombre","");
+        Empresa =   sharedPreferences.getString("Empresa","");
+        Email   =   sharedPreferences.getString("Email","");
+
+        // Saludando
+        Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre+Id),Toast.LENGTH_SHORT).show();
+        // Fin Saludo
+
+
         setContentView(R.layout.activity_home_empleados);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Saludando
-        Intent intent = getIntent();
-        Toast.makeText(getApplicationContext(),("Bienvenido "+intent.getStringExtra("Nombre")),Toast.LENGTH_SHORT).show();
-        // Fin de Saludo
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -139,6 +148,7 @@ public class HomeEmpleados extends AppCompatActivity
     private void Logout(){
         SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.remove("Id");
         editor.remove("Empresa");
         editor.remove("Email");
         editor.remove("Password");

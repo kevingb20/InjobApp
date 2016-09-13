@@ -72,7 +72,7 @@ public class Login extends AppCompatActivity {
 
     public void login(View view){
 
-       LlenarSharedPreferences(1);//Es de tipo Empleado
+
         Thread tr= new Thread() {
             @Override
             public void run() {
@@ -83,6 +83,7 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
+                            LlenarSharedPreferences(1,lCon.IdUsuario,lCon.NombreUsuario);//Es de tipo Empleado
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
@@ -103,7 +104,7 @@ public class Login extends AppCompatActivity {
 
     public void loginAdmin(View view){
 
-        LlenarSharedPreferences(2); //Es de tipo Admin
+
 
         Thread tr= new Thread() {
             @Override
@@ -115,6 +116,7 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
+                            LlenarSharedPreferences(2,lCon.IdUsuario,lCon.NombreUsuario); //Es de tipo Admin
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), Admin.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
@@ -133,11 +135,13 @@ public class Login extends AppCompatActivity {
         tr.start();
     }
 
-    void LlenarSharedPreferences(int tipo){
+    void LlenarSharedPreferences(int tipo,int id, String Nombre){
         //Guardar datos en SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("Logeado",true);
         editor.putInt("Tipo",tipo);
+        editor.putInt("Id",id);
+        editor.putString("Nombre",Nombre);
         if(tipo==1){
             editor.putString("Empresa",txtEmp.getText().toString());
             editor.putString("Email",txtUsu.getText().toString());

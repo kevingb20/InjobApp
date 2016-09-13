@@ -16,7 +16,7 @@ import java.net.URL;
 public class LoginConexion {
 
     public String NombreUsuario = ""; //Sirve para llamarlo desde otros Activities
-
+    public int IdUsuario=0;
     public String enviarDatosGet(String emp,String usu, String pas,String cod, int tipo){
 
         URL url =null;
@@ -62,8 +62,11 @@ public class LoginConexion {
             for (int i = 0; i < json.length(); i++) {
                 JSONObject jsonobject = json.getJSONObject(i);
                 String nombre = jsonobject.getString("nombre");
+               int id = jsonobject.getInt("id");
                System.out.println(nombre);
+               System.out.println("ID: "+id);
                 NombreUsuario = nombre;
+                IdUsuario = id;
 
             }
             //////////////////
