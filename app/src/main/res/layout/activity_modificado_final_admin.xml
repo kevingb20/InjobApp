@@ -96,7 +96,7 @@
         android:ems="100"
         android:id="@+id/modnombre"
         android:layout_above="@+id/textView23"
-        android:layout_alignEnd="@+id/modemail"
+        android:layout_alignEnd="@+id/editemail"
         android:layout_alignStart="@+id/imageButton" />
 
     <EditText
@@ -105,7 +105,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/modapellido"
-        android:layout_above="@+id/modemail"
+        android:layout_above="@+id/editemail"
         android:layout_alignParentEnd="true" />
 
     <EditText
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/modemail"
+        android:id="@+id/editemail"
         android:layout_above="@+id/textView26"
         android:layout_alignParentEnd="true" />
 
@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:ems="10"
-        android:id="@+id/modcedula"
+        android:id="@+id/editcedula"
         android:layout_alignBottom="@+id/textView26"
         android:layout_alignParentEnd="true" />
 
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/modsueldo"
+        android:id="@+id/editsueldo"
         android:layout_above="@+id/textView28"
         android:layout_alignParentEnd="true" />
 
@@ -151,7 +151,7 @@
         android:ems="10"
         android:id="@+id/modsalida"
         android:layout_alignBottom="@+id/textView29"
-        android:layout_alignStart="@+id/modcedula" />
+        android:layout_alignStart="@+id/editcedula" />
 
     <ImageButton
         android:layout_width="90dp"
@@ -169,5 +169,5 @@
         android:ems="10"
         android:id="@+id/modpass"
         android:layout_above="@+id/textView27"
-        android:layout_alignStart="@+id/modsueldo" />
+        android:layout_alignStart="@+id/editsueldo" />
 </RelativeLayout>

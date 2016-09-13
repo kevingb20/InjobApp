@@ -83,6 +83,7 @@ public class HomeEmpleados extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+
             Intent edit = new Intent(this, EditEmp.class);
             startActivity(edit);
 
