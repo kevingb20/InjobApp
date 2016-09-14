@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,7 @@ public class HomeEmpleados extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
         private ZXingScannerView mScannerView;
         public int Id;
-        String Nombre,Empresa,Email;
+        String Nombre,Empresa,Email, code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,19 +80,20 @@ public class HomeEmpleados extends AppCompatActivity
         setContentView(mScannerView);
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
+
     }
 
 
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,8 +102,6 @@ public class HomeEmpleados extends AppCompatActivity
         return true;
     }
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -109,9 +109,6 @@ public class HomeEmpleados extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-//            Intent edit = new Intent(this, EditEmp.class);
-//            edit.putExtra("id", Id);
-//            startActivity(edit);
             Thread tr= new Thread() {
 
                 @Override
@@ -123,15 +120,9 @@ public class HomeEmpleados extends AppCompatActivity
                             modifyTask.execute();
                         }
                     });
-
-
                 }
             };
             tr.start();
-
-
-
-
         } else if (id == R.id.nav_gallery) {
             AlertDialog.Builder builder= new  AlertDialog.Builder(this);
             builder.setTitle("Multa");
@@ -166,14 +157,28 @@ public class HomeEmpleados extends AppCompatActivity
         AlertDialog.Builder builder= new  AlertDialog.Builder(this);
         builder.setTitle("scan Result");
         builder.setMessage(result.getText());
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+        code = result.getText();
+        Log.d("ESTE ES EL CODE:::", code);
+        Thread tr= new Thread() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                aceptar();
+            public void run() {
+                final VerificacionQrConexion lCon = new VerificacionQrConexion();
+                final String resultado = lCon.enviarDatosGet(code);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        lCon.obtDatosJson(resultado, getApplicationContext());
+                        mScannerView=new ZXingScannerView(getApplication());
+                        setContentView(mScannerView);
+                        mScannerView.stopCamera();
+                        Intent edit = new Intent(getApplicationContext(), HomeEmpleados.class);
+                        startActivity(edit);
+
+                    }
+                });
             }
-        });
-        AlertDialog alert1= builder.create();
-        alert1.show();
+        };
+        tr.start();
 
     }
     public void aceptar(){
