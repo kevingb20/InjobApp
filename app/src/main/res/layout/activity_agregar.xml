@@ -161,7 +161,7 @@
         android:layout_centerHorizontal="true"
         android:src="@mipmap/save"
         android:background="#00ffffff"
-        android:onClick="agregarEmpleado" />
+        android:onClick="GuardarNuevo" />
 
     <EditText
         android:layout_width="wrap_content"
