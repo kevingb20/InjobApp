@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -26,6 +28,7 @@ import com.google.zxing.Result;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +39,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -45,6 +54,7 @@ public class HomeEmpleados extends AppCompatActivity
         private ZXingScannerView mScannerView;
         public int Id;
         String Nombre,Empresa,Email, code;
+        TextView txtDia,txtFecha,txtEntrada2,txtSalida2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +67,10 @@ public class HomeEmpleados extends AppCompatActivity
         Email   =   sharedPreferences.getString("Email","");
 
         // Saludando
-        Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre+Id),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
         // Fin Saludo
+
+
 
 
         setContentView(R.layout.activity_home_empleados);
@@ -75,6 +87,46 @@ public class HomeEmpleados extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        txtDia = (TextView) findViewById(R.id.txt_Dia);
+        txtFecha = (TextView) findViewById(R.id.txt_Fecha);
+        txtEntrada2 = (TextView) findViewById(R.id.txt_Entrada2);
+        txtSalida2 = (TextView) findViewById(R.id.txt_Salida2);
+        //Para tener datos del sistema
+        Calendar c = Calendar.getInstance();
+        //Poniendo el dia de la semana
+        txtDia.setText(ConsultarDia(c.get(Calendar.DAY_OF_WEEK)));
+        txtFecha.setText(c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.DAY_OF_MONTH));
+
+    }
+public void PruebasHora(View view){
+    DateFormat df = DateFormat.getTimeInstance();
+    df.setTimeZone(TimeZone.getTimeZone("gmt"));
+    String gmtTime = df.format(new Date());
+
+    Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("GMT-8"));
+    System.out.println(cal2.getTime().toString());
+
+   // CalcularMulta();
+   // Calendar c = Calendar.getInstance();
+   // txtEntrada2.setText("18:68:33");
+    //System.out.println(c.get(Calendar.HOUR_OF_DAY)+"-"+c.get(Calendar.MINUTE)+"-"+c.get(Calendar.SECOND));
+
+
+    //SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+    //SharedPreferences.Editor editor = sharedpreferences.edit();
+
+    //editor.putBoolean("MarcadoSalida", false);
+   // editor.putBoolean("MarcadoEntrada", false);
+
+    //editor.clear();
+   // editor.commit();
+
+}
+
+
     public void QrScanner(View view) {
         mScannerView=new ZXingScannerView(this);
         setContentView(mScannerView);
@@ -82,7 +134,24 @@ public class HomeEmpleados extends AppCompatActivity
         mScannerView.startCamera();
 
     }
-
+    public String ConsultarDia(int dia){
+        if(dia==1)
+            return "Domingo";
+        if(dia==2)
+            return "Lunes";
+        if(dia==3)
+            return "Martes";
+        if(dia==4)
+            return "Miércoles";
+        if(dia==5)
+            return "Jueves";
+        if(dia==6)
+            return "Viernes";
+        if(dia==7)
+            return "Sábado";
+        else
+            return "Lunes";
+    }
 
 
 //    @Override

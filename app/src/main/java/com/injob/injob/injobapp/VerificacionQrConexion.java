@@ -57,12 +57,16 @@ public class VerificacionQrConexion {
             JSONObject json_data = new JSONObject(response);
             code=(json_data.getInt("code"));
 
-            if(code==1)
+            if(code==1) //EL QR ES CORRECTO
             {
-                Toast.makeText(context, "Que tenga buen dia :)",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Guardando Registro...",
+                    Toast.LENGTH_SHORT).show();
+                //Mandar a guardar a Base
+                MarcarConexion marcarConexion = new MarcarConexion();
+                marcarConexion.CalcularMulta(context);
+
             }
-            else
+            else //EL QR ES INCORRECTO
             {
                 Toast.makeText(context, "No es el codigo de hoy :(",
                         Toast.LENGTH_LONG).show();

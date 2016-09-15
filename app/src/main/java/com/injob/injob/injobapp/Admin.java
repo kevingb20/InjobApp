@@ -39,7 +39,7 @@ public class Admin extends AppCompatActivity
 
 
         // Saludando
-        Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
         // Fin Saludo
 
         setContentView(R.layout.activity_admin);
@@ -86,16 +86,7 @@ public class Admin extends AppCompatActivity
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        final TextView miCodigo = (TextView) findViewById(R.id.txt_CodigoInicio);
-        miCodigo.setText(Codigo);
 
-        final TextView miEmpresa = (TextView) findViewById(R.id.txt_EmpresaInicio);
-        miEmpresa.setText(Empresa);
-
-    }
 
     @Override
     public void onBackPressed() {
