@@ -8,28 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class Login extends AppCompatActivity {
-    //TabHost tabHost;
-    Button btnIngresar;
+
     EditText txtEmp,txtUsu,txtPas,
             txtEmp2,txtUsu2,txtPas2,txtCod;
 
-
+    private Spinner spinnerEmpresas, spinempresaAdmin;
+    String empresa, empresaadmin;
     public static final String MyPREFERENCES = "MisPreferencias" ;
     SharedPreferences sharedPreferences;
 
@@ -42,13 +33,53 @@ public class Login extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
+        spinnerEmpresas = (Spinner)findViewById(R.id.spinEmpresas);
+        spinempresaAdmin =(Spinner)findViewById(R.id.spinEmpresasAdmin);
+
+        ListarEmpresasConexion lis = new ListarEmpresasConexion();
+        lis.recoger(getApplicationContext(), spinnerEmpresas);
+        ListarEmpresasConexion lisAdmin = new ListarEmpresasConexion();
+        lisAdmin.recoger(getApplicationContext(), spinempresaAdmin);
+
+        spinnerEmpresas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                empresa= parentView.getItemAtPosition(position).toString();
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        parentView.getItemAtPosition(position).toString() + " Seleccionado" ,
+//                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+        spinempresaAdmin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                empresaadmin= parentView.getItemAtPosition(position).toString();
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        parentView.getItemAtPosition(position).toString() + " Seleccionado" ,
+//                        Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         //Empleado
-        txtEmp=(EditText)findViewById(R.id.txt_Empresa);
+//        txtEmp=(EditText)findViewById(R.id.txt_Empresa);
         txtUsu=(EditText)findViewById(R.id.txt_Email);
         txtPas=(EditText)findViewById(R.id.txt_Pass);
         //Administrador
-        txtEmp2=(EditText)findViewById(R.id.txt_Empresa2);
+//        txtEmp2=(EditText)findViewById(R.id.txt_Empresa2);
         txtUsu2=(EditText)findViewById(R.id.txt_Email2);
         txtPas2=(EditText)findViewById(R.id.txt_Pass2);
         txtCod=(EditText)findViewById(R.id.txt_Codigo);
@@ -69,7 +100,6 @@ public class Login extends AppCompatActivity {
         host.addTab(spec);
     }
 
-
     public void login(View view){
 
 
@@ -77,7 +107,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void run() {
                 final LoginConexion lCon = new LoginConexion();
-                final String resultado = lCon.enviarDatosGet(txtEmp.getText().toString(),txtUsu.getText().toString(), txtPas.getText().toString(),"",1);
+                final String resultado = lCon.enviarDatosGet(empresa.toString(),txtUsu.getText().toString(), txtPas.getText().toString(),"",1);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -87,7 +117,7 @@ public class Login extends AppCompatActivity {
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
-                            i.putExtra("Empresa",txtEmp.getText().toString());
+                            i.putExtra("Empresa",empresa);
                             i.putExtra("Email",txtUsu.getText().toString());
                             i.putExtra("Password",txtPas.getText().toString());
                             startActivity(i);
@@ -110,7 +140,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void run() {
                 final LoginConexion lCon = new LoginConexion();
-                final String resultado = lCon.enviarDatosGet(txtEmp2.getText().toString(), txtUsu2.getText().toString(), txtPas2.getText().toString(),txtCod.getText().toString(),2);
+                final String resultado = lCon.enviarDatosGet(empresaadmin, txtUsu2.getText().toString(), txtPas2.getText().toString(),txtCod.getText().toString(),2);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -120,7 +150,7 @@ public class Login extends AppCompatActivity {
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), Admin.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
-                            i.putExtra("Empresa",txtEmp2.getText().toString());
+                            i.putExtra("Empresa",empresaadmin);
                             i.putExtra("Email",txtUsu2.getText().toString());
                             i.putExtra("Password",txtPas2.getText().toString());
                             i.putExtra("Codigo",txtCod.getText().toString());
@@ -143,13 +173,13 @@ public class Login extends AppCompatActivity {
         editor.putInt("Id",id);
         editor.putString("Nombre",Nombre);
         if(tipo==1){
-            editor.putString("Empresa",txtEmp.getText().toString());
+            editor.putString("Empresa",empresa);
             editor.putString("Email",txtUsu.getText().toString());
             editor.putString("Password",txtPas.getText().toString());
             editor.putString("Codigo","");
         }
         if(tipo==2){
-            editor.putString("Empresa",txtEmp2.getText().toString());
+            editor.putString("Empresa",empresaadmin);
             editor.putString("Email",txtUsu2.getText().toString());
             editor.putString("Password",txtPas2.getText().toString());
             editor.putString("Codigo",txtCod.getText().toString());

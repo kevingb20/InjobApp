@@ -49,22 +49,16 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Login"
                         android:id="@+id/Lbl_Login"
-                        android:layout_gravity="center_horizontal" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:ems="10"
-                        android:id="@+id/txt_Empresa"
-                        android:autoText="true"
-                        android:elegantTextHeight="true"
-                        android:selectAllOnFocus="false"
-                        android:transitionName="email"
-                        android:hint="Empresa"
-                        android:password="false"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center" />
+                        android:paddingBottom="20dp" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="39dp"
+                        android:id="@+id/spinEmpresas"
+                        android:gravity="center"
+                        android:textColor="#0099ff"
+                        android:background="#4d9ce1" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -78,7 +72,8 @@
                         android:transitionName=""
                         android:hint="Email"
                         android:password="false"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:paddingTop="10dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -94,7 +89,8 @@
                         android:text=""
                         android:password="true"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:paddingTop="10dp" />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -102,7 +98,10 @@
                         android:text="Enviar"
                         android:id="@+id/btn_submit"
                         android:layout_gravity="center_horizontal"
-                        android:onClick="login" />
+                        android:onClick="login"
+                        android:background="#d85e82"
+                        android:textColor="#feffffff" />
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -119,21 +118,14 @@
                         android:id="@+id/textView"
                         android:layout_gravity="center_horizontal" />
 
-                    <EditText
+                    <Spinner
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:ems="10"
-                        android:id="@+id/txt_Empresa2"
-                        android:autoText="true"
-                        android:elegantTextHeight="true"
-                        android:selectAllOnFocus="false"
-                        android:transitionName="email"
-                        android:hint="Empresa"
-                        android:text=""
-                        android:password="false"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center" />
+                        android:layout_height="39dp"
+                        android:id="@+id/spinEmpresasAdmin"
+                        android:gravity="center"
+                        android:textColor="#0099ff"
+                        android:background="#4d9ce1" />
+
 
                     <EditText
                         android:layout_width="match_parent"
@@ -189,7 +181,9 @@
                         android:text="Enviar"
                         android:id="@+id/btn_enviar2"
                         android:layout_gravity="center_horizontal"
-                        android:onClick="loginAdmin" />
+                        android:onClick="loginAdmin"
+                        android:background="#d85e82"
+                        android:textColor="#feffffff"/>
 
                 </LinearLayout>
             </FrameLayout>
