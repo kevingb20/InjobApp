@@ -1,6 +1,8 @@
 package com.injob.injob.injobapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -15,7 +17,16 @@ import java.net.URL;
 /**
  * Created by Just on 14/09/2016.
  */
+
 public class VerificacionQrConexion {
+    public int idEmpleado;
+    public boolean tipoMarcado;
+    VerificacionQrConexion(int id,boolean tMarcado){
+        idEmpleado = id;
+        tipoMarcado = tMarcado;
+    }
+
+
     public String enviarDatosGet(String number){
 
         URL url =null;
@@ -62,7 +73,8 @@ public class VerificacionQrConexion {
                 Toast.makeText(context, "Guardando Registro...",
                     Toast.LENGTH_SHORT).show();
                 //Mandar a guardar a Base
-                MarcarConexion marcarConexion = new MarcarConexion();
+
+                MarcarConexion marcarConexion = new MarcarConexion(idEmpleado,tipoMarcado);
                 marcarConexion.CalcularMulta(context);
 
             }

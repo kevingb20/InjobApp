@@ -1,6 +1,7 @@
 package com.injob.injob.injobapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -23,34 +24,44 @@ import java.util.TimeZone;
  */
 public class MarcarConexion extends AppCompatActivity{
     String resultado="";
+    public int idEmpleado;
+    public boolean yaMarco=false;
+    public  boolean tipoMarcado;//false ENTRADA, true Salida
+    MarcarConexion(int id,boolean tMarcado){
+        idEmpleado=id;
+        tipoMarcado = tMarcado;//
+    }
     public void CalcularMulta(final Context context){
 
-        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd");
-        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-        System.out.println(dateFormatGmt.toString());
-
         System.out.println("CALCULANDO MULTA...");
+        final MarcarSharedPreferences msp = new MarcarSharedPreferences();
+
 
         //ID
-        final SharedPreferences sharedPreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
-
+        //final SharedPreferences sharedPreferences = getSharedPreferences(Login.MyPREFERENCES, context.MODE_PRIVATE);
+        System.out.println("Luego del Shared");
         //Dia
         Calendar c = Calendar.getInstance();
         final String diaActual = c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.DAY_OF_MONTH);
         System.out.println(diaActual);
         //HoraEntrada
-        final String horaActual = c.get(Calendar.HOUR_OF_DAY)+"-"+c.get(Calendar.MINUTE)+"-"+c.get(Calendar.SECOND);
+        final String horaActual = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND);
         System.out.println(horaActual);
 
         Thread tr= new Thread() {
             @Override
             public void run() {
-                    if(sharedPreferences.getBoolean("MarcadoEntrada",false)){//SI YA MARCO ENTRADA
-                        resultado = enviarDatosGet(sharedPreferences.getInt("Id",0),diaActual,horaActual,horaActual,5f);
+                   if(tipoMarcado==false){//MARCAR ENTRADA
+                       System.out.println("Marcar Entrada");
+                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,"",5f,1);
+                   }
+                else{//Marcar SALIDA
+                       System.out.println("Marcar Salida");
+                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,horaActual,100f,2);
+                   }//
+                      //
 
-                     }else{ // SI VA A MARCAR ENTRADA
-                         resultado = enviarDatosGet(sharedPreferences.getInt("Id",0),diaActual,horaActual,null,5f);
-                     }
+
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -59,7 +70,7 @@ public class MarcarConexion extends AppCompatActivity{
                         int r = obtDatosJson(resultado,context);
                         if (r > 0) {
                             System.out.println("SE GUARDO");
-
+/*
                             if(sharedPreferences.getBoolean("MarcadoEntrada",false)) {
                                 Toast.makeText(context,"MARCADO SALIDA", Toast.LENGTH_SHORT).show();
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -74,7 +85,7 @@ public class MarcarConexion extends AppCompatActivity{
                                 editor.putBoolean("MarcadoEntrada", true);
                                 editor.commit();
                             }
-
+*/
                         } else {
                             Toast.makeText(context,"Intente Nuevamente", Toast.LENGTH_SHORT).show();
                             System.out.println("Intente nuevamente por favor");
@@ -88,7 +99,7 @@ public class MarcarConexion extends AppCompatActivity{
 
 
     }
-    public String enviarDatosGet(int empleado, String dia, String horaEntrada, String horaSalida, Float multa){
+    public String enviarDatosGet(int empleado, String dia, String horaEntrada, String horaSalida, Float multa, int tipo){
 
         URL url =null;
         String line="";
@@ -101,7 +112,8 @@ public class MarcarConexion extends AppCompatActivity{
                     "&dia="+dia+
                     "&horaEntrada=" +horaEntrada+
                     "&horaSalida="+horaSalida+
-                    "&multa="+multa
+                    "&multa="+multa+
+                    "&tipo="+tipo
 
             );
 
@@ -138,8 +150,9 @@ public class MarcarConexion extends AppCompatActivity{
 
             if(code==1)
             {
-               Toast.makeText(context, "Tenga un Buen día",
+               Toast.makeText(context, "Gracias",
                        Toast.LENGTH_SHORT).show();
+
             }
             else
             {

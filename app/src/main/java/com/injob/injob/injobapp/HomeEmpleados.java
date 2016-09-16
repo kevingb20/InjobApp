@@ -1,6 +1,8 @@
 package com.injob.injob.injobapp;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,7 @@ public class HomeEmpleados extends AppCompatActivity
         public int Id;
         String Nombre,Empresa,Email, code;
         TextView txtDia,txtFecha,txtEntrada2,txtSalida2;
+        Button btnCamara;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,15 +103,17 @@ public class HomeEmpleados extends AppCompatActivity
         //Poniendo el dia de la semana
         txtDia.setText(ConsultarDia(c.get(Calendar.DAY_OF_WEEK)));
         txtFecha.setText(c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.DAY_OF_MONTH));
-
+        btnCamara = (Button)findViewById(R.id.button);
+        btnCamara.setEnabled(true);
     }
-public void PruebasHora(View view){
-    DateFormat df = DateFormat.getTimeInstance();
-    df.setTimeZone(TimeZone.getTimeZone("gmt"));
-    String gmtTime = df.format(new Date());
 
-    Calendar cal2 = Calendar.getInstance(TimeZone.getTimeZone("GMT-8"));
-    System.out.println(cal2.getTime().toString());
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // btnCamara.setEnabled(false);
+    }
+
+    public void PruebasHora(View view){
 
    // CalcularMulta();
    // Calendar c = Calendar.getInstance();
@@ -115,14 +121,14 @@ public void PruebasHora(View view){
     //System.out.println(c.get(Calendar.HOUR_OF_DAY)+"-"+c.get(Calendar.MINUTE)+"-"+c.get(Calendar.SECOND));
 
 
-    //SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
-    //SharedPreferences.Editor editor = sharedpreferences.edit();
+    SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedpreferences.edit();
 
     //editor.putBoolean("MarcadoSalida", false);
    // editor.putBoolean("MarcadoEntrada", false);
-
+editor.remove("tipoMarcado");
     //editor.clear();
-   // editor.commit();
+    editor.commit();
 
 }
 
@@ -223,6 +229,7 @@ public void PruebasHora(View view){
 
     @Override
     public void handleResult(Result result) {
+        final SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         AlertDialog.Builder builder= new  AlertDialog.Builder(this);
         builder.setTitle("scan Result");
         builder.setMessage(result.getText());
@@ -231,16 +238,33 @@ public void PruebasHora(View view){
         Thread tr= new Thread() {
             @Override
             public void run() {
-                final VerificacionQrConexion lCon = new VerificacionQrConexion();
+
+                System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",false));
+
+                final VerificacionQrConexion lCon = new VerificacionQrConexion(Id,sharedpreferences.getBoolean("tipoMarcado",false));//false es tipo MarcarEntrada
                 final String resultado = lCon.enviarDatosGet(code);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         lCon.obtDatosJson(resultado, getApplicationContext());
+System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",true));
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        if(sharedpreferences.getBoolean("tipoMarcado",true)){
+                            editor.putBoolean("tipoMarcado",false);
+                        }
+                        if(sharedpreferences.getBoolean("tipoMarcado",false)==false){
+                            editor.putBoolean("tipoMarcado",true);
+                        }
+
+                        editor.commit();
+                        System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",true));
+
                         mScannerView=new ZXingScannerView(getApplication());
                         setContentView(mScannerView);
                         mScannerView.stopCamera();
-                        Intent edit = new Intent(getApplicationContext(), HomeEmpleados.class);
+                      // restart();
+                        finishAffinity();
+                      Intent edit = new Intent(getApplicationContext(), HomeEmpleados.class);
                         startActivity(edit);
 
                     }
@@ -253,6 +277,12 @@ public void PruebasHora(View view){
     public void aceptar(){
         Intent i = new Intent(this, HomeEmpleados.class);
         startActivity(i);
+    }
+    public void restart() {
+        finishAffinity();
+        Intent intent = new Intent(getApplicationContext(), Splash.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
     private void Logout(){
         SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
