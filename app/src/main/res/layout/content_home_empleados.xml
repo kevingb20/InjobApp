@@ -53,7 +53,8 @@
         android:onClick="PruebasHora"
         android:layout_marginBottom="43dp"
         android:layout_above="@+id/button"
-        android:layout_alignStart="@+id/button" />
+        android:layout_alignStart="@+id/button"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -72,7 +73,8 @@
         android:id="@+id/txt_Entrada1"
         android:layout_below="@+id/textClock"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="47dp" />
+        android:layout_marginTop="47dp"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,7 +83,8 @@
         android:text="Salida"
         android:id="@+id/txt_Salida1"
         android:layout_alignTop="@+id/txt_Entrada1"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -92,7 +95,8 @@
         android:layout_below="@+id/txt_Entrada1"
         android:layout_alignParentStart="true"
         android:gravity="center"
-        android:layout_toStartOf="@+id/textClock" />
+        android:layout_toStartOf="@+id/textClock"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -104,6 +108,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/txt_Entrada2"
         android:gravity="center"
-        android:layout_toEndOf="@+id/textClock" />
+        android:layout_toEndOf="@+id/textClock"
+        android:visibility="invisible" />
 
 </RelativeLayout>
