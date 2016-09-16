@@ -24,7 +24,6 @@
             android:name=".HomeEmpleados"
             android:label="@string/title_activity_home_empleados"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".EditEmp"
             android:label="@string/title_activity_edit_employee"
@@ -33,8 +32,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeEmpleados" />
         </activity>
-
-        <activity android:name=".ListarEmpleado"
+        <activity
+            android:name=".ListarEmpleado"
             android:label="@string/title_activity_empleado">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -71,11 +70,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListarEmpleado" />
         </activity>
-        <activity android:name=".Listar"
+        <activity
+            android:name=".Listar"
             android:label="@string/title_activity_listar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListarEmpleado" />
+        </activity>
+        <activity android:name=".Multamayor"
+            android:label="@string/title_activity_multa">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InicioMulta" />
+        </activity>
+        <activity android:name=".InicioMulta"
+            android:label="@string/title_activity_multa">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Admin" />
         </activity>
     </application>
 
