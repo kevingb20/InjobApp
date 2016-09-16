@@ -17,6 +17,8 @@ public class LoginConexion {
 
     public String NombreUsuario = ""; //Sirve para llamarlo desde otros Activities
     public int IdUsuario=0;
+    public int Sueldo;
+    public String HoraEntrada="", HoraSalida="";
     public String enviarDatosGet(String emp,String usu, String pas,String cod, int tipo){
 
         URL url =null;
@@ -63,10 +65,20 @@ public class LoginConexion {
                 JSONObject jsonobject = json.getJSONObject(i);
                 String nombre = jsonobject.getString("nombre");
                int id = jsonobject.getInt("id");
-               System.out.println(nombre);
-               System.out.println("ID: "+id);
+
                 NombreUsuario = nombre;
                 IdUsuario = id;
+                try{
+                    Sueldo=jsonobject.getInt("sueldo");
+                    HoraEntrada=jsonobject.getString("horaEntrada");
+                    HoraSalida=jsonobject.getString("horaSalida");
+                }catch (Exception e){}
+
+                System.out.println(nombre);
+                System.out.println("ID: "+id);
+                System.out.println(HoraEntrada);
+                System.out.println(HoraSalida);
+                System.out.println(Sueldo+"");
 
             }
             //////////////////

@@ -113,7 +113,8 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
-                            LlenarSharedPreferences(1,lCon.IdUsuario,lCon.NombreUsuario);//Es de tipo Empleado
+                            LlenarSharedPreferences(1,lCon.IdUsuario,lCon.NombreUsuario,lCon.Sueldo, lCon.HoraEntrada,lCon.HoraSalida);//Es de tipo Empleado
+
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), HomeEmpleados.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
@@ -146,7 +147,7 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         int r = lCon.obtDatosJson(resultado);
                         if (r > 0) {
-                            LlenarSharedPreferences(2,lCon.IdUsuario,lCon.NombreUsuario); //Es de tipo Admin
+                            LlenarSharedPreferences(2,lCon.IdUsuario,lCon.NombreUsuario,0,"",""); //Es de tipo Admin
                             //Entrar a aplicacion
                             Intent i = new Intent(getApplicationContext(), Admin.class);
                             i.putExtra("Nombre",lCon.NombreUsuario );
@@ -165,24 +166,33 @@ public class Login extends AppCompatActivity {
         tr.start();
     }
 
-    void LlenarSharedPreferences(int tipo,int id, String Nombre){
+    void LlenarSharedPreferences(int tipo,int id, String Nombre,int suel,String hEntrada,String hSalida){
         //Guardar datos en SharedPreferences
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("Logeado",true);
         editor.putInt("Tipo",tipo);
         editor.putInt("Id",id);
+
         editor.putString("Nombre",Nombre);
         if(tipo==1){
             editor.putString("Empresa",empresa);
             editor.putString("Email",txtUsu.getText().toString());
             editor.putString("Password",txtPas.getText().toString());
+            editor.putInt("Sueldo",suel);
+            editor.putString("HoraEntrada",hEntrada);
+            editor.putString("HoraSalida",hSalida);
             editor.putString("Codigo","");
         }
         if(tipo==2){
             editor.putString("Empresa",empresaadmin);
             editor.putString("Email",txtUsu2.getText().toString());
             editor.putString("Password",txtPas2.getText().toString());
+            editor.putInt("Sueldo",suel);
+            editor.putString("HoraEntrada",hEntrada);
+            editor.putString("HoraSalida",hSalida);
             editor.putString("Codigo",txtCod.getText().toString());
+
         }
         editor.commit();
 

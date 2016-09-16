@@ -21,9 +21,13 @@ import java.net.URL;
 public class VerificacionQrConexion {
     public int idEmpleado;
     public boolean tipoMarcado;
-    VerificacionQrConexion(int id,boolean tMarcado){
+    public String MarcadoEntrada="",MarcadoSalida="";
+    public float multa;
+    VerificacionQrConexion(int id,boolean tMarcado,float mul){
         idEmpleado = id;
         tipoMarcado = tMarcado;
+        multa=mul;
+        System.out.println("CREANDO VERIFICAR QR CONEXION y la multa es: "+multa);
     }
 
 
@@ -73,10 +77,15 @@ public class VerificacionQrConexion {
                 Toast.makeText(context, "Guardando Registro...",
                     Toast.LENGTH_SHORT).show();
                 //Mandar a guardar a Base
+                System.out.println("Antes1");
+                MarcarConexion marcarConexion = new MarcarConexion(idEmpleado,tipoMarcado,multa);
 
-                MarcarConexion marcarConexion = new MarcarConexion(idEmpleado,tipoMarcado);
+                System.out.println("Antes2");
                 marcarConexion.CalcularMulta(context);
-
+               if(tipoMarcado==false)
+                    MarcadoEntrada=marcarConexion.MarcadoEntrada;
+                else
+                   MarcadoSalida=marcarConexion.MarcadoSalida;
             }
             else //EL QR ES INCORRECTO
             {

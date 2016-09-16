@@ -91,8 +91,8 @@
         android:id="@+id/txt_Entrada2"
         android:layout_below="@+id/txt_Entrada1"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/txt_Entrada1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_toStartOf="@+id/textClock" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
         android:layout_alignTop="@+id/txt_Entrada2"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/txt_Entrada2"
-        android:layout_alignStart="@+id/txt_Salida1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_toEndOf="@+id/textClock" />
 
 </RelativeLayout>

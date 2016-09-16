@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -27,14 +28,23 @@ public class MarcarConexion extends AppCompatActivity{
     public int idEmpleado;
     public boolean yaMarco=false;
     public  boolean tipoMarcado;//false ENTRADA, true Salida
-    MarcarConexion(int id,boolean tMarcado){
+    public String MarcadoEntrada="",MarcadoSalida="";
+    public float multaM;
+    public TextView txt1,txt2;
+    MarcarConexion(int id,boolean tMarcado, float mul){
+
+        System.out.println("Antes3");
         idEmpleado=id;
         tipoMarcado = tMarcado;//
+        multaM = mul;
+       // txt1=(TextView)findViewById(R.id.txt_Entrada2);
+      //  txt2=(TextView)findViewById(R.id.txt_Salida2);
+        System.out.println("CREANDO MARCAR CONEXION y la multa es: "+multaM);
     }
     public void CalcularMulta(final Context context){
 
         System.out.println("CALCULANDO MULTA...");
-        final MarcarSharedPreferences msp = new MarcarSharedPreferences();
+       // final MarcarSharedPreferences msp = new MarcarSharedPreferences();
 
 
         //ID
@@ -53,11 +63,15 @@ public class MarcarConexion extends AppCompatActivity{
             public void run() {
                    if(tipoMarcado==false){//MARCAR ENTRADA
                        System.out.println("Marcar Entrada");
-                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,"",5f,1);
+                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,"",multaM,1);
+                       MarcadoEntrada=horaActual;
+                    //   txt1.setText(horaActual);
                    }
                 else{//Marcar SALIDA
                        System.out.println("Marcar Salida");
-                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,horaActual,100f,2);
+                       resultado = enviarDatosGet(idEmpleado,diaActual,horaActual,horaActual,multaM,2);
+                       MarcadoSalida=horaActual;
+                      // txt2.setText(horaActual);
                    }//
                       //
 

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -45,10 +46,11 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class HomeEmpleados extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ZXingScannerView.ResultHandler {
         private ZXingScannerView mScannerView;
-        public int Id;
-        String Nombre,Empresa,Email, code;
+        public int Id,Sueldo;
+        String Nombre,Empresa,Email, code,horaEntrada,horaSalida;
         TextView txtDia,txtFecha,txtEntrada2,txtSalida2;
         Button btnCamara;
+    public float multa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,9 @@ public class HomeEmpleados extends AppCompatActivity
         Nombre =sharedPreferences.getString("Nombre","");
         Empresa =   sharedPreferences.getString("Empresa","");
         Email   =   sharedPreferences.getString("Email","");
+        Sueldo   =   sharedPreferences.getInt("Sueldo",0);
+        horaEntrada   =   sharedPreferences.getString("HoraEntrada","");
+        horaSalida   =   sharedPreferences.getString("HoraSalida","");
 
         // Saludando
         //Toast.makeText(getApplicationContext(),("Bienvenido "+Nombre),Toast.LENGTH_SHORT).show();
@@ -84,10 +89,10 @@ public class HomeEmpleados extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        System.out.println("onStart");
         txtDia = (TextView) findViewById(R.id.txt_Dia);
         txtFecha = (TextView) findViewById(R.id.txt_Fecha);
-        txtEntrada2 = (TextView) findViewById(R.id.txt_Entrada2);
-        txtSalida2 = (TextView) findViewById(R.id.txt_Salida2);
+
         //Para tener datos del sistema
         Calendar c = Calendar.getInstance();
         //Poniendo el dia de la semana
@@ -95,14 +100,133 @@ public class HomeEmpleados extends AppCompatActivity
         txtFecha.setText(c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.DAY_OF_MONTH));
         btnCamara = (Button)findViewById(R.id.button);
         btnCamara.setEnabled(true);
+/*
+        txtEntrada2 = (TextView) findViewById(R.id.txt_Entrada2);
+        txtSalida2 = (TextView) findViewById(R.id.txt_Salida2);
+        final SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+
+        txtEntrada2.setText(sharedpreferences.getString("MarcadoEntrada","-- : -- : --"));
+        txtSalida2.setText(sharedpreferences.getString("MarcadoSalida","-- : -- : --"));
+       // txtEntrada2.setText("33:33:33");
+       // txtSalida2.setText("33:33:33");
+        System.out.println(sharedpreferences.getString("MarcadoEntrada","-- : -- : --")+"////"+sharedpreferences.getString("MarcadoSalida","-- : -- : --") );
+*/
     }
 
+
+
+
+    private float  CalcularMulta(boolean tipo){
+    float valorMulta=0f;
+
+            System.out.println("EMAIL       : " + Email);
+            System.out.println("Hora ENTRADA: " + horaEntrada);
+            System.out.println("Hora SALIDA : " + horaSalida);
+            System.out.println("Sueldo      : " + Sueldo);
+
+            Calendar c = Calendar.getInstance();
+            int horaActual = Integer.parseInt("" + c.get(Calendar.HOUR_OF_DAY));
+            int minutoActual = Integer.parseInt("" + c.get(Calendar.MINUTE));
+            int segundoActual = Integer.parseInt("" + c.get(Calendar.SECOND));
+
+            int hora1 = 0, minuto1=0, segundo1=0;
+
+        if (tipo==false) {//MULTA AL MARCAR ENTRADA
+            String s = horaEntrada;
+            String[] splitted = s.split(":");
+
+            // add the end brace for every entry except the last
+            for (int i = 0; i < splitted.length - 1; i++) {
+                splitted[i] = splitted[i] + "";
+            }
+
+            // print out the string array
+            for (int i = 0; i < splitted.length; i++) {
+                System.out.println("String s" + i + " = " + splitted[i]);
+                if (i == 0)
+                    hora1 = Integer.parseInt(splitted[i].toString());
+                if (i == 1)
+                    minuto1 = Integer.parseInt(splitted[i].toString());
+                if (i == 2)
+                    segundo1 = Integer.parseInt(splitted[i].toString());
+            }
+
+            if (horaActual >= hora1) {
+                if (horaActual > hora1) {
+                    valorMulta = ((Sueldo / 240f) * (horaActual - hora1));
+                    System.out.println(valorMulta + "Multa por hora");
+                }
+                if (minutoActual > minuto1) {
+                    valorMulta = valorMulta + ((Sueldo / (240f * 60f)) * (minutoActual - minuto1));
+
+                    System.out.println(valorMulta + "Multa por minuto");
+                }
+            }
+            valorMulta = round(valorMulta, 2);
+            return valorMulta;
+
+        }else//Multa para MARCAR SALIDA
+        {
+            String s = horaSalida;
+            String[] splitted = s.split(":");
+
+            // add the end brace for every entry except the last
+            for (int i = 0; i < splitted.length - 1; i++) {
+                splitted[i] = splitted[i] + "";
+            }
+
+            // print out the string array
+            for (int i = 0; i < splitted.length; i++) {
+                System.out.println("String s" + i + " = " + splitted[i]);
+                if (i == 0)
+                    hora1 = Integer.parseInt(splitted[i].toString());
+                if (i == 1)
+                    minuto1 = Integer.parseInt(splitted[i].toString());
+                if (i == 2)
+                    segundo1 = Integer.parseInt(splitted[i].toString());
+            }
+
+            if (horaActual <= hora1) {
+                if (horaActual < hora1) {
+                    valorMulta = ((Sueldo / 240f) * (hora1-horaActual));
+                    System.out.println(valorMulta + "Multa por hora");
+                }
+                if (minutoActual < minuto1) {
+                    valorMulta = valorMulta + ((Sueldo / (240f * 60f)) * (minuto1-minutoActual));
+
+                    System.out.println(valorMulta + "Multa por minuto");
+                }
+            }
+            valorMulta = round(valorMulta, 2);
+            return valorMulta;
+        }
+
+    }
+
+    public static float round(float d, int decimalPlace) {//SOLO 2 DECIMALES
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
+
+
+/*
     @Override
-    protected void onResume() {
-        super.onResume();
-       // btnCamara.setEnabled(false);
-    }
+    protected void onPostResume() {
+        super.onPostResume();
+        System.out.println("onPostResume");
+        txtEntrada2 = (TextView) findViewById(R.id.txt_Entrada2);
+        txtSalida2 = (TextView) findViewById(R.id.txt_Salida2);
+        final SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
+        txtEntrada2.setText(sharedpreferences.getString("MarcadoEntrada","-- : -- : --"));
+        txtSalida2.setText(sharedpreferences.getString("MarcadoSalida","-- : -- : --"));
+       // txtEntrada2.setText("33:33:33");
+        //txtSalida2.setText("33:33:33");
+        System.out.println(sharedpreferences.getString("MarcadoEntrada","-- : -- : --")+"////"+sharedpreferences.getString("MarcadoSalida","-- : -- : --") );
+
+    }
+*/
     public void PruebasHora(View view){
 
    // CalcularMulta();
@@ -111,15 +235,18 @@ public class HomeEmpleados extends AppCompatActivity
     //System.out.println(c.get(Calendar.HOUR_OF_DAY)+"-"+c.get(Calendar.MINUTE)+"-"+c.get(Calendar.SECOND));
 
 
-    SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedpreferences.edit();
+   // SharedPreferences sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+  //  SharedPreferences.Editor editor = sharedpreferences.edit();
 
     //editor.putBoolean("MarcadoSalida", false);
    // editor.putBoolean("MarcadoEntrada", false);
-editor.remove("tipoMarcado");
+    //editor.remove("tipoMarcado");
+     //   editor.remove("MarcadoEntrada");
+       // editor.remove("MarcadoSalida");
     //editor.clear();
-    editor.commit();
-
+   // editor.commit();
+        float valor = CalcularMulta(true);
+System.out.println("MULTA ACTUAL: "+valor);
 }
 
 
@@ -236,20 +363,27 @@ editor.remove("tipoMarcado");
             public void run() {
 
                 System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",false));
-
-                final VerificacionQrConexion lCon = new VerificacionQrConexion(Id,sharedpreferences.getBoolean("tipoMarcado",false));//false es tipo MarcarEntrada
+            float multaActual = CalcularMulta(sharedpreferences.getBoolean("tipoMarcado",false));
+                final VerificacionQrConexion lCon = new VerificacionQrConexion(Id,sharedpreferences.getBoolean("tipoMarcado",false),multaActual);//false es tipo MarcarEntrada
                 final String resultado = lCon.enviarDatosGet(code);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         lCon.obtDatosJson(resultado, getApplicationContext());
 System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",true));
+
+
+
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         if(sharedpreferences.getBoolean("tipoMarcado",true)){
                             editor.putBoolean("tipoMarcado",false);
+                            editor.putString("MarcadoSalida",lCon.MarcadoSalida);
                         }
                         if(sharedpreferences.getBoolean("tipoMarcado",false)==false){
                             editor.putBoolean("tipoMarcado",true);
+
+                            editor.putString("MarcadoEntrada",lCon.MarcadoEntrada);
+
                         }
 
                         editor.commit();
@@ -258,8 +392,9 @@ System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",true));
                         mScannerView=new ZXingScannerView(getApplication());
                         setContentView(mScannerView);
                         mScannerView.stopCamera();
+
                       // restart();
-                        finishAffinity();
+                       // finishAffinity();
                       Intent edit = new Intent(getApplicationContext(), HomeEmpleados.class);
                         startActivity(edit);
 
@@ -289,7 +424,11 @@ System.out.println(""+sharedpreferences.getBoolean("tipoMarcado",true));
         editor.remove("Password");
         editor.remove("Codigo");
         editor.remove("Tipo");
+        editor.remove("TipoMarcado");
+        editor.remove("HoraEntrada");
+        editor.remove("HoraSalida");
         editor.remove("Logeado");
+        editor.remove("Sueldo");
         editor.clear();
         editor.commit();
 
